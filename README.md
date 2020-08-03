@@ -17,7 +17,6 @@ tp_cordova create lines_5
 cd ~/lines_5/
 tp_cordova platform add android
 
-#convert /tmp/icon.png -resize 192x192 res/icon.png
 #ANDROID_SDK_ROOT=$(tp_android_sdk_tools) JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 PATH=${JAVA_HOME}/bin:${PATH} tp_cordova run android
 
 (cd ~/lines_5/ &&
@@ -34,5 +33,12 @@ jarsigner -digestalg SHA1 -keystore lines_5-mobileapps.keystore -sigalg SHA1with
 $(tp_android_sdk_tools)/build-tools/29.0.3/zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk platforms/android/app/build/outputs/apk/release/app-release.apk &&
 $(tp_android_sdk_tools)/platform-tools/adb uninstall io.cordova.lines_5 &&
 $(tp_android_sdk_tools)/platform-tools/adb install -r platforms/android/app/build/outputs/apk/release/app-release.apk &&
+echo DONE)
+
+(cd ~/lines_5/platforms/android/ &&
+ANDROID_HOME=$(tp_android_sdk_tools) ./gradlew :app:bundle &&
+tp_android_bundletool build-apks --bundle=app/build/outputs/bundle/debug/app.aab --output=lines_5.apks &&
+$(tp_android_sdk_tools)/platform-tools/adb uninstall io.cordova.lines_5 &&
+ANDROID_HOME=$(tp_android_sdk_tools) tp_android_bundletool install-apks --apks=lines_5.apks &&
 echo DONE)
 ```
