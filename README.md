@@ -24,6 +24,7 @@ cp ${SUITEDIR}/src/main/html/{five-in-a-row-cordova.html,*.js} www/ &&
 ANDROID_SDK_ROOT=$(tp_android_sdk_tools) JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 PATH=${JAVA_HOME}/bin:${PATH} tp_cordova build &&
 $(tp_android_sdk_tools)/platform-tools/adb uninstall io.cordova.lines_5 &&
 $(tp_android_sdk_tools)/platform-tools/adb install -r platforms/android/app/build/outputs/apk/debug/app-debug.apk &&
+$(tp_android_sdk_tools)/platform-tools/adb shell am start -n io.cordova.lines_5/.MainActivity &&
 scp platforms/android/app/build/outputs/apk/debug/app-debug.apk pointless.online:/var/www/html/storey/ &&
 echo DONE)
 
